@@ -19,7 +19,7 @@ ENV USER=firefox \
     UID=24322 \
     GID=$UID \
     TEMPLATE=/firefox/Downloads
-# Whoever owns /firefox/Downloads owns the instance.
+# Whoever owns /firefox/Downloads owns the instance
 
 WORKDIR /firefox
 
@@ -45,13 +45,10 @@ RUN echo 'pref("general.config.obscure_value", 0);' >> /usr/lib/firefox/defaults
  && echo 'pref("general.config.filename", "mozilla.cfg");' >> /usr/lib/firefox/defaults/pref/local-settings.js \
  && echo "//" > /usr/lib/firefox/mozilla.cfg \ 
  && echo 'pref("browser.tabs.remote.autostart", false);  // Disable multithreading that breaks docker' >> /usr/lib/firefox/mozilla.cfg \
- && echo 'pref("app.normandy.first_run", false);  // Disable first-time setup' >> /usr/lib/firefox/mozilla.cfg \
- && echo 'pref("browser.newtabpage.activity-stream.feeds.section.topstories", false);  // Disable "top stories" feed' >> /usr/lib/firefox/mozilla.cfg \
- && echo 'pref("browser.newtabpage.activity-stream.feeds.topsites", false);  // Disable "top sites" feed' >> /usr/lib/firefox/mozilla.cfg \
- && echo 'pref("browser.newtabpage.activity-stream.section.highlights.includePocket", false);  // Disable pocket' >> /usr/lib/firefox/mozilla.cfg
+ && echo 'pref("app.normandy.first_run", false);  // Disable first-time setup' >> /usr/lib/firefox/mozilla.cfg
 
 FROM configure AS dev
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["bash"]
 
 FROM configure AS release
 
