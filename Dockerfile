@@ -2,6 +2,7 @@ FROM ubuntu AS build
 
 # Install prerequisites
 RUN apt-get update && apt-get install -yq \
+    apulse \
     ca-certificates \
     dbus-x11 \
     firefox \
@@ -10,14 +11,18 @@ RUN apt-get update && apt-get install -yq \
     libcanberra-gtk3-module \
     libgl1-mesa-dri \
     libgl1-mesa-glx \
+    libpulse0 \
     --no-install-recommends \
  && rm -rf /var/lib/apt/lists/*
+
+# To patch audio we need some extra code
+COPY firefox-helper.sh /usr/local/bin/firefox-helper.sh
+RUN chmod a+x /usr/local/bin/firefox-helper.sh
 
 FROM build AS drop-privileges
 # Create user
 ENV USER=firefox \
     UID=24322 \
-    GID=$UID \
     TEMPLATE=/firefox/Downloads
 # Whoever owns /firefox/Downloads owns the instance
 
@@ -36,7 +41,7 @@ RUN adduser \
 
 ADD https://raw.githubusercontent.com/Rexypoo/docker-entrypoint-helper/master/entrypoint-helper.sh /usr/local/bin/entrypoint-helper.sh
 RUN chmod u+x /usr/local/bin/entrypoint-helper.sh
-ENTRYPOINT ["entrypoint-helper.sh", "/usr/bin/firefox", "--no-remote"]
+ENTRYPOINT ["entrypoint-helper.sh", "/usr/local/bin/firefox-helper.sh", "--no-remote"]
 
 FROM drop-privileges AS configure
 
@@ -65,6 +70,7 @@ LABEL org.opencontainers.image.url="https://hub.docker.com/r/rexypoo/firefox" \
       --net=host \
       -e DISPLAY \
       -v /tmp/.X11-unix:/tmp/.X11-unix:ro \
+      --device /dev/snd \
       -v "$HOME"/Downloads:/firefox/Downloads \
       -v "$HOME"/.firefox-settings:/firefox/.mozilla/firefox \
       rexypoo/firefox' \

@@ -19,3 +19,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+MIT License
+
+Inspiration from the work of Jessie Frazelle.
+https://github.com/jessfraz/dockerfiles
+
+Firefox is a product of the Mozilla Corporation
+The author makes no claims of ownership to Mozilla Firefox.
+You are encouraged to review the Firefox terms of service:
+https://www.mozilla.org/en-US/about/legal/terms/firefox/
